@@ -1,0 +1,14 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getFeeds } from "../apis/posts/postsApi";
+
+export const useGetFeeds = () =>
+  useInfiniteQuery({
+    queryKey: ["feeds"],
+    queryFn: async ({ pageParam = 1 }) =>
+      await getFeeds({ currentPage: pageParam, size: 10 }),
+    getNextPageParam: (lastPage, allPages) => {
+      const currentpage = lastPage.data.currentpage;
+      const totalPages = lastPage.data.totalPages;
+      return lastPage.data.isLast ? undefined : currentpage + 1;
+    },
+  });
