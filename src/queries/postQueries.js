@@ -7,8 +7,8 @@ export const useGetFeeds = () =>
     queryFn: async ({ pageParam = 1 }) =>
       await getFeeds({ currentPage: pageParam, size: 10 }),
     getNextPageParam: (lastPage, allPages) => {
-      const currentpage = lastPage.data.currentpage;
+      const currentPage = lastPage.data.currentPage;
       const totalPages = lastPage.data.totalPages;
-      return lastPage.data.isLast ? undefined : currentpage + 1;
+      return lastPage.data.isLast ? undefined : currentPage + 1;
     },
   });

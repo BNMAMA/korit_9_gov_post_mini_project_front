@@ -6,15 +6,22 @@ import { IoHomeOutline, IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineExplore } from "react-icons/md";
 import { useMeQuery } from "../../queries/usersQueries";
 import AddPostModal from "../post/AddPostModal";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function LeftSideBar({children}) {
     const location = useLocation();
     const {pathname} = location;
     const [ addPostModalOpen, setAddPostModalOpen ] = useState(false);
+    const [ homeRefresh, setHomeRefresh ] = useState(false);
     const layoutRef = useRef();
 
     const {isLoading, data} = useMeQuery();
+
+    useEffect (() => {
+        if (homeRefresh) {
+            setHomeRefresh(false)
+        }
+    },[homeRefresh]);
 
     const handleAddPostModalOpenOnClick = () => {
         setAddPostModalOpen(true);
@@ -40,16 +47,19 @@ function LeftSideBar({children}) {
                 <Link to={"/logout"}>Logout</Link>
             </div>
         </aside>
-        <div>
-            {children}
-        </div>
+        
+            {!homeRefresh && children}
+            
+        
         {
             !!layoutRef.current && addPostModalOpen &&
     // 부모 ref 가 있어야 자식이 ref요소를 가질 수 있음  그래서 &&써서 앞이 유효해야 뒤에가 유효할 수 있도록 함
         <AddPostModal
          isOpen={addPostModalOpen} 
          onRequestClose={addPostModalClose}
-         layoutRef={layoutRef}/>
+         layoutRef={layoutRef}
+         setHomeRefresh={setHomeRefresh}
+         />
         }
     </div>
 }
