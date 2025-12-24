@@ -58,7 +58,7 @@ export const feedItemContainer = css`
     }
 
     & > div:nth-of-type(1) {
-      font-size: 18px;
+      font-size: 24px;
     }
     & > div:nth-of-type(2) {
       font-size: 21px;
